@@ -1,4 +1,4 @@
-# Image Processing Scripts
+# SnapForge
 
 This repository contains a collection of Bash scripts for automating common image processing tasks. You can add watermarks, convert images to WebP format, resize images, and even perform all these operations at once!
 

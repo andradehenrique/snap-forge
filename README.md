@@ -1,63 +1,91 @@
 # SnapForge
 
-This repository contains a collection of Bash scripts for automating common image processing tasks. You can add watermarks, convert images to WebP format, resize images, and even perform all these operations at once!
+Snap Forge is a versatile image and video processing toolkit designed to simplify common tasks like resizing, watermarking, and converting images to WebP format. Now with Docker support!
 
 ## Features
 
-- **Add watermark**: Overlays an image as a watermark.
+- **Add watermark to image**: Overlays an image as a watermark.
 - **Convert to WebP**: Converts images to WebP format, optimizing size without losing quality.
-- **Resize images**: Creates thumbnails with custom dimensions.
+- **Resize images**: Resize with custom dimensions.
 - **Complete processing**: A single script that runs all the above operations in sequence.
+- **Add watermark to video**: Overlays an video as a watermark.
 
 ## Repository Structure
 
 - `watermark.sh`: Adds a watermark to images.
 - `convert-to-webp.sh`: Converts images to WebP format.
-- `thumbnails.sh`: Resizes images, creating thumbnails.
+- `crop.sh`: Resizes images, creating thumbnails.
 - `process-images.sh`: Runs all three operations in sequence.
+- `video-watermark.sh`: Adds a watermark to videos.
+
 
 ## Requirements
 
-- Linux or macOS with Bash installed.
-- CLI tools: `imagemagick`, `libwebp`.
+- Linux or macOS with Bash installed or Docker.
+- CLI tools: `imagemagick`, `libwebp`, `ffmpeg`.
 
-To install dependencies on Ubuntu:
+## Usage without docker
 
-```bash
-sudo apt update
-sudo apt install imagemagick webp
-```
-
-To install dependencies on Fedora:
+1. **Add watermark to image:**
 
 ```bash
-sudo dnf install imagemagick libwebp-tools
-```
-
-## Usage
-
-1. **Add watermark:**
-
-```bash
-./watermark.sh path/to/image/folder path/to/watermark.png
+./src/watermark.sh path/to/image/folder path/to/watermark.png
 ```
 
 2. **Convert to WebP:**
 
 ```bash
-./convert-to-webp.sh path/to/image/folder
+./src/convert-to-webp.sh path/to/image/folder
 ```
 
 3. **Resize image:**
 
 ```bash
-./thumbnails.sh path/to/image/folder widthxheight
+./src/crop.sh path/to/image/folder widthxheight
 ```
 
 4. **Complete processing:**
 
 ```bash
-./process-images.sh path/to/image/folder path/to/watermark.png widthxheight
+./src/process-images.sh path/to/image/folder path/to/watermark.png widthxheight
+```
+
+5. **Add watermark to video:**
+
+```bash
+./src/video-watermark.sh path/to/video/folder path/to/watermark.png
+```
+
+## Usage docker
+
+1. **Add watermark to image:**
+
+```bash
+./run-image-watermark.sh path/to/image/folder path/to/watermark.png
+```
+
+2. **Convert to WebP:**
+
+```bash
+./run-convert-to-webp.sh path/to/image/folder
+```
+
+3. **Resize image:**
+
+```bash
+./run-crop.sh path/to/image/folder widthxheight
+```
+
+4. **Complete processing:**
+
+```bash
+./run-process-images.sh path/to/image/folder path/to/watermark.png widthxheight
+```
+
+5. **Add watermark to video:**
+
+```bash
+./run-video-watermark.sh path/to/video/folder path/to/watermark.png
 ```
 
 ## Contributing

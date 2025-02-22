@@ -7,7 +7,7 @@ if [ -z "$1" ]; then
 fi
 
 INPUT_DIR="$1"
-OUTPUT_DIR="${INPUT_DIR}/converted_webp"
+OUTPUT_DIR="${INPUT_DIR}/webp"
 
 # Create the output directory, if it doesn't exist
 mkdir -p "$OUTPUT_DIR"

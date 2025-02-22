@@ -9,6 +9,7 @@ Snap Forge is a versatile image and video processing toolkit designed to simplif
 - **Resize images**: Resize with custom dimensions.
 - **Complete processing**: A single script that runs all the above operations in sequence.
 - **Add watermark to video**: Overlays an video as a watermark.
+- **Extract thumbnail of video**: Generate a thumbnail in webp of video.
 
 ## Repository Structure
 
@@ -16,7 +17,7 @@ Snap Forge is a versatile image and video processing toolkit designed to simplif
 - `convert-to-webp.sh`: Converts images to WebP format.
 - `crop.sh`: Resizes images, creating thumbnails.
 - `process-images.sh`: Runs all three operations in sequence.
-- `video-watermark.sh`: Adds a watermark to videos.
+- `video-watermark.sh`: Adds a watermark to videos and creates a thumbnail in webp.
 
 
 ## Requirements

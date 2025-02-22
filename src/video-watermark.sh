@@ -22,9 +22,11 @@ if [ ! -f "$WATERMARK" ]; then
   exit 1
 fi
 
-# Create the output directory
+# Create the output directories
 OUTPUT_DIR="${VIDEO_DIR}/watermarks"
+THUMBNAIL_DIR="${VIDEO_DIR}/thumbnails"
 mkdir -p "$OUTPUT_DIR"
+mkdir -p "$THUMBNAIL_DIR"
 
 # Enable extended globbing for multiple file types
 shopt -s nullglob
@@ -34,15 +36,35 @@ for VIDEO in "$VIDEO_DIR"/*.{mp4,mov,avi,mkv}; do
     continue
   fi
 
-  # Output file name
-  OUTPUT_FILE="$OUTPUT_DIR/$(basename "$VIDEO")"
+  # Output file names
+  BASENAME=$(basename "$VIDEO")
+  OUTPUT_FILE="$OUTPUT_DIR/$BASENAME"
+  THUMBNAIL_FILE="$THUMBNAIL_DIR/${BASENAME%.*}.webp"
+  TEMP_FRAME="/tmp/temp-frame.png"
 
-  # Add the watermark using ffmpeg with transparency and positioning, preserving high quality
+  # Add the watermark to the video
   ffmpeg -i "$VIDEO" -i "$WATERMARK" \
   -filter_complex "[1:v]format=rgba,colorchannelmixer=aa=0.3[wm_transparent];[wm_transparent][0:v]scale2ref=w=iw*0.50:h=ow/mdar[wm][vid];[vid][wm]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2" \
   -c:v libx264 -crf 23 -preset slow -c:a aac -b:a 128k -movflags +faststart "$OUTPUT_FILE"
 
   echo "Processed video: $OUTPUT_FILE"
+
+  # Extract a frame from the watermarked video (take the first available frame)
+  ffmpeg -y -i "$OUTPUT_FILE" -vf "select=eq(n\,0),scale=-1:720" -vsync vfr "$TEMP_FRAME"
+
+  # Check if the frame was generated before proceeding
+  if [ -f "$TEMP_FRAME" ]; then
+    # Convert to WebP
+    cwebp -q 90 "$TEMP_FRAME" -o "$THUMBNAIL_FILE"
+    echo "Thumbnail saved: $THUMBNAIL_FILE"
+
+    # Remove temporary file
+    rm "$TEMP_FRAME"
+  else
+    echo "Failed to extract thumbnail from: $OUTPUT_FILE"
+  fi
+
 done
 
 echo "Processing complete! The videos with watermarks are in: $OUTPUT_DIR"
+echo "Thumbnails are in: $THUMBNAIL_DIR"
